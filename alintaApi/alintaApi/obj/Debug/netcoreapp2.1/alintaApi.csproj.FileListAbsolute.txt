@@ -1,0 +1,14 @@
+N:\alinta-api\alintaApi\alintaApi\bin\Debug\netcoreapp2.1\alintaApi.deps.json
+N:\alinta-api\alintaApi\alintaApi\bin\Debug\netcoreapp2.1\alintaApi.runtimeconfig.json
+N:\alinta-api\alintaApi\alintaApi\bin\Debug\netcoreapp2.1\alintaApi.runtimeconfig.dev.json
+N:\alinta-api\alintaApi\alintaApi\bin\Debug\netcoreapp2.1\alintaApi.dll
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.csprojAssemblyReference.cache
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.csproj.CoreCompileInputs.cache
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.RazorAssemblyInfo.cache
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.RazorAssemblyInfo.cs
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.AssemblyInfoInputs.cache
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.AssemblyInfo.cs
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.RazorTargetAssemblyInfo.cache
+N:\alinta-api\alintaApi\alintaApi\bin\Debug\netcoreapp2.1\alintaApi.pdb
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.dll
+N:\alinta-api\alintaApi\alintaApi\obj\Debug\netcoreapp2.1\alintaApi.pdb
