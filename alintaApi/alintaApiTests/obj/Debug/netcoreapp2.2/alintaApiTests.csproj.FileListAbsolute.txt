@@ -12,3 +12,6 @@ N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.2\alintaApiTests.As
 N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.2\alintaApiTests.AssemblyInfo.cs
 N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.2\alintaApiTests.dll
 N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.2\alintaApiTests.pdb
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.2\alintaApi.dll
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.2\alintaApi.pdb
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.2\alintaApiTests.csproj.CopyComplete
