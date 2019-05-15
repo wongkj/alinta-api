@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using alintaApi.Data;
 using alintaApi.Models;
+using System.Text.RegularExpressions;
 
 namespace alintaApi.Controllers
 {
@@ -22,13 +23,57 @@ namespace alintaApi.Controllers
 
         // GET: api/Customers
         [HttpGet]
-        public IActionResult Get()
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
+        public IActionResult Get(string sort)
         {
-            return Ok(_customersDbContext.Customers);
+            IQueryable<Customer> customers;
+            switch (sort)
+            {
+                case "desc":
+                    customers = _customersDbContext.Customers.OrderByDescending(c => c.firstName);
+                    break;
+                case "asc":
+                    customers = _customersDbContext.Customers.OrderBy(c => c.firstName);
+                    break;
+                default:
+                    customers = _customersDbContext.Customers;
+                    break;
+            }
+            return Ok(customers);
+        }
+
+        [HttpGet("[action]")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
+        public IActionResult PagingCustomers(int? pageNumber, int? pageSize)
+        {
+            var customers = _customersDbContext.Customers;
+
+            var currentPageNumber = pageNumber ?? 1;
+            var currentPageSize = pageSize ?? 3;
+
+            return Ok(customers.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize));
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
+        public IActionResult SearchByName(string firstName = "", string lastName = "")
+        {
+            var customers = _customersDbContext.Customers.Where(c => c.firstName.Contains(firstName) && c.lastName.Contains(lastName));
+
+            if (customers.Count() == 0)
+            {
+                return NotFound("No customers found with given search parameters...");
+            }
+            else
+            {
+                return Ok(customers);
+            }
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}", Name = "Get")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult Get(int id)
         {
             var customer = _customersDbContext.Customers.Find(id);

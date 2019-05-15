@@ -29,6 +29,16 @@ namespace alintaApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<CustomersDbContext>(option => option.UseSqlServer(@"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = CustomersDB;"));
+            services.AddResponseCaching();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Version = "1.0",
+                    Title = "Alinta Customers API",
+                    Description = "Alinta API for Adding, Updating and Deleting customers"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +56,14 @@ namespace alintaApi
             app.UseHttpsRedirection();
 
             customersDbContext.Database.EnsureCreated();
+            app.UseResponseCaching();
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alinta Customers API v1");
+            });
         }
     }
 }

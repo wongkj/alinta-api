@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "N:\\alinta-temp\\alintaApi\\alintaApi\\alintaApi.csproj": {}
+    "N:\\alinta-api\\alintaApi\\alintaApi\\alintaApi.csproj": {}
   },
   "projects": {
-    "N:\\alinta-temp\\alintaApi\\alintaApi\\alintaApi.csproj": {
+    "N:\\alinta-api\\alintaApi\\alintaApi\\alintaApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "N:\\alinta-temp\\alintaApi\\alintaApi\\alintaApi.csproj",
+        "projectUniqueName": "N:\\alinta-api\\alintaApi\\alintaApi\\alintaApi.csproj",
         "projectName": "alintaApi",
-        "projectPath": "N:\\alinta-temp\\alintaApi\\alintaApi\\alintaApi.csproj",
+        "projectPath": "N:\\alinta-api\\alintaApi\\alintaApi\\alintaApi.csproj",
         "packagesPath": "C:\\Users\\wongk\\.nuget\\packages\\",
-        "outputPath": "N:\\alinta-temp\\alintaApi\\alintaApi\\obj\\",
+        "outputPath": "N:\\alinta-api\\alintaApi\\alintaApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\ProgramData\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\wongk\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\ServiceFabricSDK.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\Microsoft SDKs\\Service Fabric\\packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -58,11 +58,16 @@
               "target": "Package",
               "version": "[2.1.2, )"
             },
+            "Microsoft.AspNetCore.ResponseCaching": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[2.1.1, )"
             },
             "Microsoft.NETCore.App": {
+              "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
@@ -70,6 +75,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.1.9, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[4.0.1, )"
             }
           },
           "imports": [
