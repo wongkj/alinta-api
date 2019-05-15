@@ -8,6 +8,7 @@ namespace alintaApi.Models
 {
     public class Customer
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [StringLength(30)]

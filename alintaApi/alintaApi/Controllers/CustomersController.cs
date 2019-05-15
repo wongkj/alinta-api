@@ -26,20 +26,27 @@ namespace alintaApi.Controllers
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult Get(string sort)
         {
-            IQueryable<Customer> customers;
-            switch (sort)
+            try
             {
-                case "desc":
-                    customers = _customersDbContext.Customers.OrderByDescending(c => c.firstName);
-                    break;
-                case "asc":
-                    customers = _customersDbContext.Customers.OrderBy(c => c.firstName);
-                    break;
-                default:
-                    customers = _customersDbContext.Customers;
-                    break;
+                IQueryable<Customer> customers;
+                switch (sort)
+                {
+                    case "desc":
+                        customers = _customersDbContext.Customers.OrderByDescending(c => c.firstName);
+                        break;
+                    case "asc":
+                        customers = _customersDbContext.Customers.OrderBy(c => c.firstName);
+                        break;
+                    default:
+                        customers = _customersDbContext.Customers;
+                        break;
+                }
+                return Ok(customers);
             }
-            return Ok(customers);
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpGet("[action]")]
