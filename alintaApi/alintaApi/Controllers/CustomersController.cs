@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using alintaApi.Data;
 using alintaApi.Models;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace alintaApi.Controllers
 {
@@ -24,7 +25,7 @@ namespace alintaApi.Controllers
         // GET: api/Customers
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
-        public IActionResult Get(string sort)
+        public IQueryable<Customer> Get(string sort)
         {
             try
             {
@@ -41,40 +42,13 @@ namespace alintaApi.Controllers
                         customers = _customersDbContext.Customers;
                         break;
                 }
-                return Ok(customers);
+                //  return Ok(customers);
+                return customers;
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 throw;
-            }
-        }
-
-        [HttpGet("[action]")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
-        public IActionResult PagingCustomers(int? pageNumber, int? pageSize)
-        {
-            var customers = _customersDbContext.Customers;
-
-            var currentPageNumber = pageNumber ?? 1;
-            var currentPageSize = pageSize ?? 3;
-
-            return Ok(customers.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize));
-        }
-
-        [HttpGet]
-        [Route("[action]")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
-        public IActionResult SearchByName(string firstName = "", string lastName = "")
-        {
-            var customers = _customersDbContext.Customers.Where(c => c.firstName.Contains(firstName) && c.lastName.Contains(lastName));
-
-            if (customers.Count() == 0)
-            {
-                return NotFound("No customers found with given search parameters...");
-            }
-            else
-            {
-                return Ok(customers);
             }
         }
 
@@ -83,44 +57,114 @@ namespace alintaApi.Controllers
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult Get(int id)
         {
-            var customer = _customersDbContext.Customers.Find(id);
-
-            if (customer == null)
+            try
             {
-                return NotFound($"No Record found with id of {id}...");
-            }
+                var customer = _customersDbContext.Customers.Find(id);
 
-            return Ok(customer);
+                if (customer == null)
+                {
+                    return NotFound($"No Record found with id of {id}...");
+                }
+
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+        [HttpGet("[action]")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
+        public IActionResult PagingCustomers(int? pageNumber, int? pageSize)
+        {
+            try
+            {
+                var customers = _customersDbContext.Customers;
+
+                var currentPageNumber = pageNumber ?? 1;
+                var currentPageSize = pageSize ?? 3;
+
+                return Ok(customers.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
+        public IActionResult SearchByName(string firstName = "", string lastName = "")
+        {
+            try
+            {
+                var customers = _customersDbContext.Customers.Where(c => c.firstName.Contains(firstName) && c.lastName.Contains(lastName));
+
+                if (customers.Count() == 0)
+                {
+                    return NotFound("No customers found with given search parameters...");
+                }
+                else
+                {
+                    return Ok(customers);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         // POST: api/Customers
         [HttpPost]
         public IActionResult Post([FromBody] Customer customer)
         {
-            _customersDbContext.Customers.Add(customer);
-            _customersDbContext.SaveChanges();
+            try
+            {
+                _customersDbContext.Customers.Add(customer);
+                _customersDbContext.SaveChanges();
 
-            return Ok("New Customer created successfully...");
+                // return Ok("New Customer created successfully...");
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         // PUT: api/Customers/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Customer customer)
         {
-            var entity = _customersDbContext.Customers.Find(id);
-
-            if (entity == null)
+            try
             {
-                return NotFound($"Update Unsuccessful. No record found with id of {id}...");
+                var entity = _customersDbContext.Customers.Find(id);
+
+                if (entity == null)
+                {
+                    return NotFound($"Update Unsuccessful. No record found with id of {id}...");
+                }
+                else
+                {
+                    entity.firstName = customer.firstName;
+                    entity.lastName = customer.lastName;
+                    entity.dateOfBirth = customer.dateOfBirth;
+                    _customersDbContext.SaveChanges();
+
+                    return Ok(entity);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                entity.firstName = customer.firstName;
-                entity.lastName = customer.lastName;
-                entity.dateOfBirth = customer.dateOfBirth;
-                _customersDbContext.SaveChanges();
-
-                return Ok("Record Updated Successfully...");
+                Debug.WriteLine(ex.Message);
+                throw;
             }
         }
 
@@ -128,18 +172,26 @@ namespace alintaApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var customer = _customersDbContext.Customers.Find(id);
-
-            if (customer == null)
+            try
             {
-                return NotFound($"Deletion Unsuccessful. No record found with id of {id}...");
+                var customer = _customersDbContext.Customers.Find(id);
+
+                if (customer == null)
+                {
+                    return NotFound($"Deletion Unsuccessful. No record found with id of {id}...");
+                }
+                else
+                {
+                    _customersDbContext.Customers.Remove(customer);
+                    _customersDbContext.SaveChanges();
+
+                    return Ok("Customer deleted successfully...");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _customersDbContext.Customers.Remove(customer);
-                _customersDbContext.SaveChanges();
-
-                return Ok("Customer deleted successfully...");
+                Debug.WriteLine(ex.Message);
+                throw;
             }
         }
     }

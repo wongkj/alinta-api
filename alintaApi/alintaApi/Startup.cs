@@ -28,7 +28,7 @@ namespace alintaApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<CustomersDbContext>(option => option.UseSqlServer(@"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = CustomersDB;"));
+            services.AddDbContext<CustomersDbContext>(options => options.UseInMemoryDatabase(databaseName: "CustomersDB"));
             services.AddResponseCaching();
             services.AddSwaggerGen(c =>
             {
@@ -42,7 +42,8 @@ namespace alintaApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, CustomersDbContext customersDbContext)
+        // public void Configure(IApplicationBuilder app, IHostingEnvironment env, CustomersDbContext customersDbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -55,7 +56,6 @@ namespace alintaApi
 
             app.UseHttpsRedirection();
 
-            customersDbContext.Database.EnsureCreated();
             app.UseResponseCaching();
             app.UseMvc();
 

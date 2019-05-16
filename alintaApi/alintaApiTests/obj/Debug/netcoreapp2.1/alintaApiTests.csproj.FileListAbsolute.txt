@@ -1,0 +1,17 @@
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.1\alintaApiTests.csprojAssemblyReference.cache
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.1\alintaApiTests.csproj.CoreCompileInputs.cache
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.1\alintaApiTests.AssemblyInfoInputs.cache
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.1\alintaApiTests.AssemblyInfo.cs
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\alintaApiTests.deps.json
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\alintaApiTests.runtimeconfig.json
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\alintaApiTests.runtimeconfig.dev.json
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\alintaApiTests.dll
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\alintaApi.dll
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\alintaApi.pdb
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.1\alintaApiTests.csproj.CopyComplete
+N:\alinta-api\alintaApi\alintaApiTests\bin\Debug\netcoreapp2.1\alintaApiTests.pdb
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.1\alintaApiTests.dll
+N:\alinta-api\alintaApi\alintaApiTests\obj\Debug\netcoreapp2.1\alintaApiTests.pdb
