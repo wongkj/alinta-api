@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using alintaApi.Models;
 
 namespace alintaApi.Data
