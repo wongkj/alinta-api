@@ -11,9 +11,7 @@ namespace alintaApi.Data
     { 
         public CustomersDbContext(DbContextOptions<CustomersDbContext> options) : base(options)
         {
-
         }
-
 
         public DbSet<Customer> Customers { get; set; }
     }

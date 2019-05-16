@@ -22,7 +22,15 @@ namespace alintaApi.Controllers
             _customersDbContext = customersDBContext;
         }
 
-        // GET: api/Customers
+        /// <summary>
+        ///     Get All the Customers within the DataSource.
+        /// </summary>
+        /// <param name="sort">
+        ///     The order you want to arrange the Resulting data.
+        /// </param>
+        /// <returns>
+        ///     An Object I can iterate over.
+        /// </returns>
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IQueryable<Customer> Get(string sort)
@@ -42,7 +50,6 @@ namespace alintaApi.Controllers
                         customers = _customersDbContext.Customers;
                         break;
                 }
-                //  return Ok(customers);
                 return customers;
             }
             catch (Exception ex)
@@ -52,7 +59,15 @@ namespace alintaApi.Controllers
             }
         }
 
-        // GET: api/Customers/5
+        /// <summary>
+        ///     Returns the result of a single Customer based on the Id specified.
+        /// </summary>
+        /// <param name="id">
+        ///     The Id of the Customer you want returned.
+        /// </param>
+        /// <returns>
+        ///     An OkObjectResult with a value of the Customer Object located.
+        /// </returns>
         [HttpGet("{id}", Name = "Get")]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult Get(int id)
@@ -75,6 +90,20 @@ namespace alintaApi.Controllers
             }
         }
 
+        /// <summary>
+        ///     Pages through the Customer data to return Customer data in chunks instead
+        ///     of one large package.
+        /// </summary>
+        /// <param name="pageNumber">
+        ///     The page number you want to return. This parameter is nullable.
+        /// </param>
+        /// <param name="pageSize">
+        ///     The number of customers you want displayed on each page. This parameter is nullable.
+        /// </param>
+        /// <returns>
+        ///     Returns a section of the data as per the requirements specified for the
+        ///     pageNumber and pageSize.
+        /// </returns>
         [HttpGet("[action]")]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
         public IActionResult PagingCustomers(int? pageNumber, int? pageSize)
@@ -83,9 +112,12 @@ namespace alintaApi.Controllers
             {
                 var customers = _customersDbContext.Customers;
 
+                // If the pageNumber and pageSize are Not Null then the values passed in are the
+                // values assigned to the currentPageNumber and currentPageSize variables.
+                // Otherwise the default values of 1 and 3 are provided.
                 var currentPageNumber = pageNumber ?? 1;
                 var currentPageSize = pageSize ?? 3;
-
+                
                 return Ok(customers.Skip((currentPageNumber - 1) * currentPageSize).Take(currentPageSize));
             }
             catch (Exception ex)
@@ -95,6 +127,18 @@ namespace alintaApi.Controllers
             }
         }
 
+        /// <summary>
+        ///     Search for the customers based on either their First Name, Last Name or both.
+        /// </summary>
+        /// <param name="firstName">
+        ///     The First Name of the customer you wish to locate.
+        /// </param>
+        /// <param name="lastName">
+        ///     The Last Name of the customer you wish to locate.
+        /// </param>
+        /// <returns>
+        ///     Returns a list of customers that match the search criteria provided.
+        /// </returns>
         [HttpGet]
         [Route("[action]")]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
@@ -120,7 +164,15 @@ namespace alintaApi.Controllers
             }
         }
 
-        // POST: api/Customers
+        /// <summary>
+        ///     Add a new customer to the data store.
+        /// </summary>
+        /// <param name="customer">
+        ///     A Customer object is required to add the new databse.
+        /// </param>
+        /// <returns>
+        ///     An IActionResult as well as the customer object provided.
+        /// </returns>
         [HttpPost]
         public IActionResult Post([FromBody] Customer customer)
         {
@@ -129,7 +181,6 @@ namespace alintaApi.Controllers
                 _customersDbContext.Customers.Add(customer);
                 _customersDbContext.SaveChanges();
 
-                // return Ok("New Customer created successfully...");
                 return Ok(customer);
             }
             catch (Exception ex)
@@ -139,7 +190,18 @@ namespace alintaApi.Controllers
             }
         }
 
-        // PUT: api/Customers/5
+        /// <summary>
+        ///     Updates one or more property values of a Customer object.
+        /// </summary>
+        /// <param name="id">
+        ///     The Id of the customer you want to update.
+        /// </param>
+        /// <param name="customer">
+        ///     The Customer object with the modified field/s.
+        /// </param>
+        /// <returns>
+        ///     Returns an IActionResult and the NEW Customer object.
+        /// </returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Customer customer)
         {
@@ -153,6 +215,8 @@ namespace alintaApi.Controllers
                 }
                 else
                 {
+                    // Replacing the customer information in the data store with the information
+                    // provided in the body of the PUT Request.
                     entity.firstName = customer.firstName;
                     entity.lastName = customer.lastName;
                     entity.dateOfBirth = customer.dateOfBirth;
@@ -168,7 +232,15 @@ namespace alintaApi.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        ///     Removes a customer from the data source.
+        /// </summary>
+        /// <param name="id">
+        ///     The Id of the customer you want to remove.
+        /// </param>
+        /// <returns>
+        ///     An IActionResult of Ok.
+        /// </returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

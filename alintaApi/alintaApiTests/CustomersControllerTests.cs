@@ -3,23 +3,19 @@ using alintaApi.Controllers;
 using alintaApi.Models;
 using alintaApi.Data;
 using Xunit;
-using Moq;
 using Microsoft.EntityFrameworkCore;
-using Autofac.Extras.Moq;
-using Microsoft.EntityFrameworkCore.InMemory;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace alintaApiTests
 {
     public class CustomersControllerTests
     {
         protected readonly CustomersDbContext _context;
-        // private CustomersController controller;
 
         public CustomersControllerTests()
         {
+            // Instantiating the DbContext object.
+            // With each test a new instance of the DbContext object is created.
             var options = new DbContextOptionsBuilder<CustomersDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
@@ -27,31 +23,44 @@ namespace alintaApiTests
 
             _context.Database.EnsureCreated();
             
+            // The prepopulated customers of our Data Store.
             var customers = new[]
             {
-                    new Customer { Id = 1, firstName = "Steve", lastName = "Rogers", dateOfBirth = "02/02/1985"},
-                    new Customer { Id = 2, firstName = "Tony", lastName = "Stark", dateOfBirth = "03/03/1980" },
-                    new Customer { Id = 3, firstName = "Bruce", lastName = "Banner", dateOfBirth = "04/04/1960" },
-                    new Customer { Id = 4, firstName = "Peter", lastName = "Parker", dateOfBirth = "05/05/2002" }
+                    new Customer { Id = 1, firstName = "Steve", lastName = "Rogers", dateOfBirth = new DateTime(1910, 1, 1) },
+                    new Customer { Id = 2, firstName = "Tony", lastName = "Stark", dateOfBirth = new DateTime(1970, 2, 2) },
+                    new Customer { Id = 3, firstName = "Bruce", lastName = "Banner", dateOfBirth = new DateTime(1975, 3, 3) },
+                    new Customer { Id = 4, firstName = "Peter", lastName = "Parker", dateOfBirth = new DateTime(2002, 4, 4) }
             };
 
             _context.Customers.AddRange(customers);
             _context.SaveChanges();
 
             var controller = new CustomersController(_context);
-
             var query = new CustomersController(_context);
-
         }
 
+        /// <summary>
+        ///     Check to see if the correct number of items is being returned 
+        ///     from our Get Request.
+        /// </summary>
         [Fact]
         public void Get_CheckCountOfGet_ReturnCount()
         {
             var controller = new CustomersController(_context);
+            var count = _context.Customers.CountAsync().Result;
             var result = controller.Get(sort: "asc").CountAsync();
-            Assert.Equal(4, result.Result);
+            Assert.Equal(count, result.Result);
         }
 
+        /// <summary>
+        ///     Check to see if 
+        /// </summary>
+        /// <param name="id">
+        ///     The Id of the Customer we want to test.
+        /// </param>
+        /// <param name="firstName">
+        ///     The First Name of the customer we want to test.
+        /// </param>
         [Theory]
         [InlineData(1, "Steve")]
         [InlineData(2, "Tony")]
@@ -70,44 +79,41 @@ namespace alintaApiTests
             Assert.Equal(firstName, actual);
         }
 
-        [Theory]
-        [InlineData("Ste", "Rog", "Steven")]
-        public void SearchByName_CheckFirstName_ReturnFirstName(string fName, string lName, string firstName)
-        {
-            var controller = new CustomersController(_context);
-            var result = controller.SearchByName(fName, lName);
-
-            var okObjectResult = result as OkObjectResult;
-            Assert.NotNull(okObjectResult);
-
-            var model = okObjectResult.Value as alintaApi.Models.Customer;
-            var actual = model.firstName;
-            Assert.Equal(firstName, actual);
-        }
-
+        /// <summary>
+        ///     Check that when the Post Request is successful, then 
+        ///     the Return Type is an OkObjectResult and the new Customer we posted.
+        /// </summary>
         [Fact]
         public void Post_CheckReturnType_ReturnIActionResult()
         {
             var controller = new CustomersController(_context);
-            var result = controller.Post(new Customer { Id = 7, firstName = "Natasha", lastName = "Romanov", dateOfBirth = "07/07/1985" });
+            var result = controller.Post(new Customer { Id = 7, firstName = "Natasha", lastName = "Romanov", dateOfBirth = new DateTime(1985, 05, 05) });
             Assert.IsType<OkObjectResult>(result);
         }
 
+        /// <summary>
+        ///     Check to see if the correct number of customers in our Data Store is
+        ///     the Count of our Data Store plus 1 more customer.
+        /// </summary>
         [Fact]
         public void Post_CheckCountAfterPost_ReturnCount()
         {
             var controller = new CustomersController(_context);
-
-            controller.Post(new Customer { Id = 7, firstName = "Natasha", lastName = "Romanov", dateOfBirth = "07/07/1985" });
+            var count = _context.Customers.CountAsync().Result;
+            controller.Post(new Customer { Id = 7, firstName = "Natasha", lastName = "Romanov", dateOfBirth = new DateTime(1985, 05, 05) });
             var result = controller.Get(sort: "asc").CountAsync();
-            Assert.Equal(5, result.Result);
+            Assert.Equal(count + 1, result.Result);
         }
 
+        /// <summary>
+        ///     Checks to see if the Last Name of the updated Customer
+        ///     is still the same.
+        /// </summary>
         [Fact]
         public void Put_CheckLastNameAfterChange_ReturnLastName()
         {
             var controller = new CustomersController(_context);
-            var result = controller.Put(1, new Customer { Id = 7, firstName = "Steve", lastName = "Jackson", dateOfBirth = "02/02/1985" });
+            var result = controller.Put(1, new Customer { Id = 7, firstName = "Steve", lastName = "Jackson", dateOfBirth = new DateTime(1910, 1, 1) });
 
             var okObjectResult = result as OkObjectResult;
             var model = okObjectResult.Value as alintaApi.Models.Customer;
@@ -115,16 +121,23 @@ namespace alintaApiTests
             Assert.Equal("Jackson", actual);
         }
 
+        /// <summary>
+        ///     Checks to see how many items are in the Data Source after the Delete
+        ///     method has been executed.
+        /// </summary>
         [Fact]
         public void Delete_CheckCountAfterDelete_ReturnCount()
         {
             var controller = new CustomersController(_context);
-
+            var count = _context.Customers.CountAsync().Result;
             controller.Delete(1);
             var result = controller.Get(sort: "asc").CountAsync();
-            Assert.Equal(3, result.Result);
+            Assert.Equal(count - 1, result.Result);
         }
 
+        /// <summary>
+        ///     Disposing of the Data Store once it's been used.
+        /// </summary>
         [Fact]
         public void Dispose()
         {

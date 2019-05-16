@@ -17,7 +17,6 @@ namespace alintaApi.Models
         [StringLength(30)]
         public string lastName { get; set; }
         [Required]
-        // [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd")]
-        public string dateOfBirth { get; set; }
+        public DateTime dateOfBirth { get; set; }
     }
 }
